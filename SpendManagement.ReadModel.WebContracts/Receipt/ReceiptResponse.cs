@@ -9,5 +9,7 @@ namespace SpendManagement.WebContracts.Receipt
         public string EstablishmentName { get; set; } = null!;
         public DateTime ReceiptDate { get; set; }
         public IEnumerable<ReceiptItemResponse> ReceiptItems { get; set; } = null!;
+        public decimal Total { get; set; }
+        public decimal Discount { get; set; }
     }
 }
