@@ -1,4 +1,6 @@
-﻿namespace SpendManagement.WebContracts.Common
+﻿using System.Text.Json.Serialization;
+
+namespace SpendManagement.WebContracts.Common
 {
     public class PagedResult<T>
     {
@@ -12,6 +14,10 @@
         public int PageSizeLimit { get; set; }
         public int TotalPages { get; set; }
         public int TotalResults { get; set; }
+
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public double TotalAmount { get; set; }
+
         public IEnumerable<T> Results { get; set; }
     }
 }
