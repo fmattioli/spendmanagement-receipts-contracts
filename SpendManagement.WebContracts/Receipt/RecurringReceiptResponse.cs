@@ -1,4 +1,4 @@
-﻿namespace SpendManagement.WebContracts.Receipt
+﻿namespace Web.Contracts.Receipt
 {
     public class RecurringReceiptResponse
     {

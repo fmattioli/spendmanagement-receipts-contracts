@@ -1,4 +1,4 @@
-﻿namespace SpendManagement.WebContracts.Exceptions
+﻿namespace Web.Contracts.Exceptions
 {
     public sealed class InternalServerErrorException : Exception
     {
