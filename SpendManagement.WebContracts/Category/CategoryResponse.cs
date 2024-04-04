@@ -1,4 +1,4 @@
-﻿namespace SpendManagement.WebContracts.Category
+﻿namespace Web.Contracts.Category
 {
     public class CategoryResponse
     {
