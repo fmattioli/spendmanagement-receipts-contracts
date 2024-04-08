@@ -1,4 +1,4 @@
-﻿using Web.Contracts.Category;
+﻿using Web.Contracts.Category.Responses;
 
 namespace Web.Contracts.Receipt.Responses
 {

@@ -1,4 +1,4 @@
-﻿namespace Web.Contracts.Category
+﻿namespace Web.Contracts.Category.Responses
 {
     public class CategoryResponse
     {
