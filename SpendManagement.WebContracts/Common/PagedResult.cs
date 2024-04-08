@@ -4,10 +4,7 @@ namespace Web.Contracts.Common
 {
     public class PagedResult<T>
     {
-        public PagedResult()
-        {
-            Results = new List<T>();
-        }
+        public PagedResult() => Results = [];
 
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
@@ -15,7 +12,7 @@ namespace Web.Contracts.Common
         public int TotalResults { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public double TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; }
 
         public IEnumerable<T> Results { get; set; }
     }

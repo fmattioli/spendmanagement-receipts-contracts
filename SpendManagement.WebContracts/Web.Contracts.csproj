@@ -6,9 +6,13 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>SpendManagement.WebContracts</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.7</Version>
     <PackageIcon>27566574.jpg</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="27566574.jpg">
