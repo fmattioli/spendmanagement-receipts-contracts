@@ -4,7 +4,7 @@ namespace Web.Contracts.Common
 {
     public class PagedResult<T>
     {
-        public PagedResult() => Results = new List<T>();
+        public PagedResult() => Results = [];
 
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
