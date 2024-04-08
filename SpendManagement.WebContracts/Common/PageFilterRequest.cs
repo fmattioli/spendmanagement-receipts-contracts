@@ -1,4 +1,4 @@
-﻿namespace Web.Contracts.Receipt.Requests
+﻿namespace Web.Contracts.Common
 {
     public record PageFilterRequest
     {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.Contracts.Common;
 
 namespace Web.Contracts.Receipt.Requests
 {
