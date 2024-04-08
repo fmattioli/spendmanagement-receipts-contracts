@@ -14,12 +14,12 @@ namespace Web.Contracts.Receipt.Requests
         public PageFilterRequest PageFilter { get; set; }
 
         [FromQuery]
-        public IEnumerable<Guid> ReceiptIds { get; set; } = [];
+        public IEnumerable<Guid>? ReceiptIds { get; set; }
 
         [FromQuery]
-        public IEnumerable<Guid> CategoryIds { get; set; } = [];
+        public IEnumerable<Guid>? CategoryIds { get; set; }
 
         [FromQuery]
-        public IEnumerable<string> EstablishmentNames { get; set; } = [];
+        public IEnumerable<string>? EstablishmentNames { get; set; }
     }
 }

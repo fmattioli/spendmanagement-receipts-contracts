@@ -14,13 +14,13 @@ namespace Web.Contracts.Receipt.Requests
         public PageFilterRequest PageFilter { get; set; }
 
         [FromQuery]
-        public IEnumerable<Guid> ReceiptIds { get; set; } = [];
+        public IEnumerable<Guid>? ReceiptIds { get; set; }
 
         [FromQuery]
-        public IEnumerable<Guid> CategoryIds { get; set; } = [];
+        public IEnumerable<Guid>? CategoryIds { get; set; }
 
         [FromQuery]
-        public IEnumerable<string> EstablishmentNames { get; set; } = [];
+        public IEnumerable<string>? EstablishmentNames { get; set; }
 
         [FromQuery]
         public DateTime ReceiptDate { get; set; }
@@ -29,9 +29,9 @@ namespace Web.Contracts.Receipt.Requests
         public DateTime ReceiptDateFinal { get; set; }
 
         [FromQuery]
-        public IEnumerable<Guid> ReceiptItemIds { get; set; } = [];
+        public IEnumerable<Guid>? ReceiptItemIds { get; set; }
 
         [FromQuery]
-        public IEnumerable<string> ReceiptItemNames { get; set; } = [];
+        public IEnumerable<string>? ReceiptItemNames { get; set; }
     }
 }
