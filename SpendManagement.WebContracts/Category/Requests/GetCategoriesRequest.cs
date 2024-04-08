@@ -14,9 +14,9 @@ namespace Web.Contracts.Category.Requests
         public PageFilterRequest PageFilter { get; set; }
 
         [FromQuery(Name = "categoryIds")]
-        public IEnumerable<Guid> CategoryIds { get; set; } = [];
+        public IEnumerable<Guid>? CategoryIds { get; set; }
 
         [FromQuery(Name = "categoryNames")]
-        public IEnumerable<string> CategoryNames { get; set; } = [];
+        public IEnumerable<string>? CategoryNames { get; set; }
     }
 }
