@@ -25,8 +25,8 @@ jobs:
           version: 2.0.8
 
       - run: |
-          git config user.name "Your Name"
-          git config user.email "your-email@users.noreply.github.com"
+          git config user.name "Felipe Mattioli"
+          git config user.email "felipe-mattioli98@hotmail.com"
           git add .
           git commit -m "Update project version to ${{ steps.update.outputs.newVersion }}"
           git push
