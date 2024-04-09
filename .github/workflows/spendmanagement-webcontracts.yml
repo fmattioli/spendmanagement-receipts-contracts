@@ -64,4 +64,4 @@ jobs:
 
       - name: Push generated package to GitHub registry
       
-        run: dotnet nuget push ./SpendManagement.WebContracts/out/*.nupkg --api-key oy2kx4nork5ogy4s7f4q7hu2o43zzyme7eh3ezy7uz6oey --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./SpendManagement.WebContracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
