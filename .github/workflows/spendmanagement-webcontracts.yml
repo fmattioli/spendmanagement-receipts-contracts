@@ -22,7 +22,7 @@ jobs:
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: "SpendManagement.WebContracts/Web.Contracts.csproj"
-          version: ${{ github.event.inputs.version }}
+          version: 2.0.8
 
       - run: |
           git config user.name "Your Name"
