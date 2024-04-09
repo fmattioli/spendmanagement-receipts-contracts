@@ -49,9 +49,14 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           source-url: https://api.nuget.org/v3/index.json
+          dotnet-version: 8.0.x
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Restore dependencies
+        run: dotnet restore src/SpendManagement.Receipts.API/SpendManagement.Receipts.API.csproj
+      - name: Build
+        run: dotnet build --no-restore --configuration Release src/SpendManagement.Receipts.API/SpendManagement.Receipts.API.csproj
       - name: Build solution and generate NuGet package
         run: |  
           cd SpendManagement.WebContracts
