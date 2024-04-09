@@ -54,9 +54,9 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
-        run: dotnet restore src/SpendManagement.Receipts.API/SpendManagement.Receipts.API.csproj
+        run: dotnet restore SpendManagement.WebContracts/Web.Contracts.csproj
       - name: Build
-        run: dotnet build --no-restore --configuration Release src/SpendManagement.Receipts.API/SpendManagement.Receipts.API.csproj
+        run: dotnet build --no-restore --configuration Release SpendManagement.WebContracts/Web.Contracts.csproj
       - name: Build solution and generate NuGet package
         run: |  
           cd SpendManagement.WebContracts
