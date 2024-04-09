@@ -50,11 +50,11 @@ jobs:
         with:
           source-url: https://api.nuget.org/v3/index.json
         env:
-          NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}  # Definindo a variável de ambiente aqui
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Definindo a variável de ambiente aqui
 
       - name: Build solution and generate NuGet package
         run: |
-          dotnet pack -c Release src/Receipts.ReadModel.API/Receipts.ReadModel.API.csproj -o out
+          dotnet pack -c Release SpendManagement.WebContracts/Web.Contracts.csproj -o out
 
       - name: Push generated package to GitHub registry
         run: dotnet nuget push SpendManagement.WebContracts.${{ steps.bump.outputs.newVersion }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
