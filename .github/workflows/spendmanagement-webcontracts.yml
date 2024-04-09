@@ -39,6 +39,7 @@ jobs:
           
   build:
     runs-on: ubuntu-18.04
+    needs: bump
     name: Update NuGet package
     steps:
 
@@ -58,4 +59,4 @@ jobs:
           dotnet pack -c Release -o out  
 
       - name: Push generated package to GitHub registry
-        run: dotnet nuget push SpendManagement.WebContracts.${{ steps.bump.outputs.newVersion }}.nupkg --skip-duplicate --no-symbols true
+        run: dotnet nuget push SpendManagement.WebContracts.${{ steps.bump.outputs.newVersion }}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
