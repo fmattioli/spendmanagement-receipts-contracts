@@ -51,7 +51,7 @@ jobs:
           source-url: https://api.nuget.org/v3/index.json
           dotnet-version: 8.0.x
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Restore dependencies
         run: dotnet restore SpendManagement.WebContracts/Web.Contracts.csproj
