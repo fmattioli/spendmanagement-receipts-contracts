@@ -50,7 +50,7 @@ jobs:
         with:
           source-url: https://api.nuget.org/v3/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Definindo a variável de ambiente aqui
+          NUGET_API_KEY: ${{ secrets.GITHUB_TOKEN }}  # Definindo a variável de ambiente aqui
 
       - name: Build solution and generate NuGet package
         run: |
