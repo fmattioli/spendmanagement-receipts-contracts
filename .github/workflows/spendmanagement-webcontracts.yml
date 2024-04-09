@@ -54,7 +54,7 @@ jobs:
 
       - name: Build solution and generate NuGet package
         run: |  
-          cd SpendManagement.WebContracts/Web.Contracts.csproj
+          cd SpendManagement.WebContracts
           dotnet pack -c Release -o out 
 
       - name: Push generated package to GitHub registry
