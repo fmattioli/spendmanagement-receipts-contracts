@@ -42,7 +42,6 @@ jobs:
     needs: bump
     name: Update NuGet package
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v1
 
@@ -51,8 +50,8 @@ jobs:
         with:
           source-url: https://api.nuget.org/v3/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
-          
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Definindo a variável de ambiente aqui
+
       - name: Build solution and generate NuGet package
         run: |
           dotnet pack -c Release src/Receipts.ReadModel.API/Receipts.ReadModel.API.csproj -o out
