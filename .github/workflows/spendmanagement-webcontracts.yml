@@ -30,5 +30,5 @@ jobs:
           git checkout -b update-version
           git add .
           git commit -m "Update project version to ${{ steps.update.outputs.newVersion }}"
-          git push
+          git push origin update-version
           
