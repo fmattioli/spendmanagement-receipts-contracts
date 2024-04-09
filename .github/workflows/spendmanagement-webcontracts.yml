@@ -18,10 +18,10 @@ jobs:
           dotnet-version: 8
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore SpendManagement.WebContracts/Web.Contracts.csproj
 
       - name: Build
-        run: dotnet build
+        run: dotnet build SpendManagement.WebContracts/Web.Contracts.csproj
 
       - name: Bump build version
         id: bump
