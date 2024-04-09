@@ -1,0 +1,32 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.1
+
+    - name: Determine version
+      id: version
+      run: echo "::set-output name=version::$(GitVersion /output buildserver /showvariable FullSemVer)"
+
+    - name: Build and push NuGet package
+      run: |
+        dotnet build SpendManagement.WebContracts/Web.Contracts.csproj
+        dotnet nuget push SpendManagement.WebContracts.$(echo ${{ steps.version.outputs.version }}).nupkg --api-key ${{ secrets.NUGET_API_KEY }}
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
