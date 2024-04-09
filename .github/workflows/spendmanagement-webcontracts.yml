@@ -27,6 +27,7 @@ jobs:
       - run: |
           git config user.name "Felipe Mattioli"
           git config user.email "felipe-mattioli98@hotmail.com"
+          git pull
           git add .
           git commit -m "Update project version to ${{ steps.update.outputs.newVersion }}"
           git push origin main
