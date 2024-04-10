@@ -20,6 +20,21 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore SpendManagement.WebContracts/Web.Contracts.csproj
 
+      - name: Determinar Tipo de Mudança
+        id: determine_change_type
+        run: |
+          LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+          if echo "$LAST_COMMIT_MESSAGE" | grep -qE "^\[BREAKING CHANGE\]"; then
+            echo "::set-output name=change_type::major"
+          else
+            echo "::set-output name=change_type::patch"
+          fi
+          
+      - name: Printar Tipo de Mudança
+        run: |
+          echo "Tipo de Mudança: ${{ steps.determine_change_type.outputs.change_type }}"
+
+
       - name: Build
         run: dotnet build SpendManagement.WebContracts/Web.Contracts.csproj
 
