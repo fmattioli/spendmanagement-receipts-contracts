@@ -46,7 +46,7 @@ jobs:
         id: bump-minor
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: ContracSpendManagement.Receipts.Contractsts/Contracts.csproj
+          file: SpendManagement.Receipts.Contractsts/Contracts.csproj
           version: bump-minor
 
       - name: Bump build version - Revision
@@ -93,4 +93,4 @@ jobs:
           dotnet pack Contracts.csproj -c Release -o out 
 
       - name: Push generated package to GitHub registry 
-        run: dotnet nuget push ./SpendManagement.Receipts.SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
