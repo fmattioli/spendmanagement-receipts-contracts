@@ -21,7 +21,7 @@ jobs:
           dotnet-version: 8
 
       - name: Restore dependencies
-        run: dotnet restore SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+        run: dotnet restore Contracts/Contracts.csproj
 
       - name: Determinar Tipo de Mudança
         id: determine_change_type
@@ -39,14 +39,14 @@ jobs:
           echo "Tipo de Mudança: $VERSION_UPDATE_TYPE"
 
       - name: Build
-        run: dotnet build SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+        run: dotnet build Contracts/Contracts.csproj
 
       - name: Bump build version - Minor
         if: env.VERSION_UPDATE_TYPE == 'MINOR'
         id: bump-minor
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+          file: Contracts/Contracts.csproj
           version: bump-minor
 
       - name: Bump build version - Revision
@@ -54,14 +54,14 @@ jobs:
         id: bump-revision
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+          file: Contracts/Contracts.csproj
           version: bump-revision
 
       - name: Commit and push changes
         if: ${{ always() }}
         run: |
-          git config user.name "Build - Github Actions"
-          git config user.email "your-email@users.noreply.github.com"
+          git config user.name "Build - Incrementing version | Github action"
+          git config user.email "deploy@spendmanagement.com"
           git add .
           git commit -m "Bump project version to ${{ steps.bump-minor.outputs.newVersion }} ${{ steps.bump-revision.outputs.newVersion }}"
           git push
@@ -83,14 +83,14 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
-        run: dotnet restore SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+        run: dotnet restore Contracts/Contracts.csproj
         
       - name: Build
-        run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+        run: dotnet build --no-restore --configuration Release Contracts/Contracts.csproj
       - name: Build solution and generate NuGet package
         run: |  
-          cd SpendManagement.Receipts.Contracts
-          dotnet pack Web.Contracts.csproj -c Release -o out 
+          cd Contracts
+          dotnet pack Contracts.csproj -c Release -o out 
 
       - name: Push generated package to GitHub registry 
         run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
