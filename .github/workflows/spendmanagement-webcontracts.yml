@@ -28,15 +28,15 @@ jobs:
         run: |
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
-            run: echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
-            
+            echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
           fi
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
-            run: echo "VERSION_UPDATE_TYPE=REVISION" >> $GITHUB_ENV
+            echo "VERSION_UPDATE_TYPE=REVISION" >> $GITHUB_ENV
           fi
+
       - name: Printar Tipo de Mudança
         run: |
-          run: echo "Tipo de Mudança: $VERSION_UPDATE_TYPE"
+          echo "Tipo de Mudança: $VERSION_UPDATE_TYPE"
 
       - name: Build
         run: dotnet build SpendManagement.WebContracts/Web.Contracts.csproj
@@ -57,11 +57,13 @@ jobs:
           file: SpendManagement.WebContracts/Web.Contracts.csproj
           version: bump-revision
 
-      - run: |
+      - name: Commit and push changes
+        if: ${{ always() }}
+        run: |
           git config user.name "Build - Github Actions"
           git config user.email "your-email@users.noreply.github.com"
           git add .
-          git commit -m "Bump project version to ${{ steps.bump.outputs.newVersion }}"
+          git commit -m "Bump project version to ${{ steps.bump-minor.outputs.newVersion }}"
           git push
           
   build:
