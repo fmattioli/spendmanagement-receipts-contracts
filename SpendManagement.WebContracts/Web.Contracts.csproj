@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>SpendManagement.WebContracts</PackageId>
-    <Version>3.0.31.1</Version>
+    <Version>3.0.31.2</Version>
     <PackageIcon>27566574.jpg</PackageIcon>
   </PropertyGroup>
 
