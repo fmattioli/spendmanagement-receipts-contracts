@@ -78,5 +78,6 @@ jobs:
           dotnet pack Web.Contracts.csproj -c Release -o out 
 
       - name: Push generated package to GitHub registry
-      
+        run: |
+          echo "Tipo de Mudança: ${{ steps.determine_change_type.outputs.change_type }}"
         # run: dotnet nuget push ./SpendManagement.WebContracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
