@@ -1,6 +1,6 @@
 # spendmanagement-topics
 
-A simple nugget package project that contains classes that are used as http responses. This project is used on the projects SpendManagement.ReadModel and SpendManagement.API.
+A nuGet package that contains classes that are used as http responses and on kafka messaging between microservices.
 
 # Related projects
 > https://github.com/fmattioli/spendmanagement-apigateway <br/>
