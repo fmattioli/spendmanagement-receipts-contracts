@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>SpendManagement.WebContracts</PackageId>
-    <Version>bump-build-patch</Version>
+    <Version>2.0.29</Version>
     <PackageIcon>27566574.jpg</PackageIcon>
   </PropertyGroup>
 
