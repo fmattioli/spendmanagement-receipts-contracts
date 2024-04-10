@@ -24,10 +24,10 @@ jobs:
         id: determine_change_type
         run: |
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-          if echo "$LAST_COMMIT_MESSAGE" | grep -qE "^\[feat\]"; then
+          if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
             echo "::set-output name=change_type::minor"
           fi
-          if echo "$LAST_COMMIT_MESSAGE" | grep -q "fix"; then
+          if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
             echo "::set-output name=change_type::revision"
           fi
       - name: Printar Tipo de Mudança
