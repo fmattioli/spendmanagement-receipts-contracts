@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+env:
+  VERSION_UPDATE_TYPE: "value"
+
 jobs:
   bump:
     runs-on: ubuntu-latest
@@ -25,20 +28,21 @@ jobs:
         run: |
           LAST_COMMIT_MESSAGE=$(git log -1 --pretty=%B)
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
-            echo "::set-output name=change_type::minor"
+            run: echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
+            
           fi
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
-            echo "::set-output name=change_type::revision"
+            run: echo "VERSION_UPDATE_TYPE=REVISION" >> $GITHUB_ENV
           fi
       - name: Printar Tipo de Mudança
         run: |
-          echo "Tipo de Mudança: ${{ steps.determine_change_type.outputs.change_type }}"
+          run: echo "Tipo de Mudança: $VERSION_UPDATE_TYPE"
 
       - name: Build
         run: dotnet build SpendManagement.WebContracts/Web.Contracts.csproj
 
       - name: Bump build version - Minor
-        if: steps.determine_change_type.outputs.change_type == 'minor'
+        if: env.VERSION_UPDATE_TYPE == 'MINOR'
         id: bump-minor
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
@@ -46,7 +50,7 @@ jobs:
           version: bump-minor
 
       - name: Bump build version - Revision
-        if: steps.determine_change_type.outputs.change_type == 'revision'
+        if: env.VERSION_UPDATE_TYPE == 'REVISION'
         id: bump-revision
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
