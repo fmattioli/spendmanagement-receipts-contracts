@@ -92,4 +92,4 @@ jobs:
           dotnet pack Web.Contracts.csproj -c Release -o out 
 
       - name: Push generated package to GitHub registry 
-        run: dotnet nuget push ./SpendManagement.WebContracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
