@@ -86,7 +86,7 @@ jobs:
         run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
         
       - name: Build
-        run: dotnet build --no-restore --configuration Release Contracts/Contracts.csproj
+        run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
       - name: Build solution and generate NuGet package
         run: |  
           cd SpendManagement.Receipts.Contracts
