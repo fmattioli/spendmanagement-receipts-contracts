@@ -21,7 +21,7 @@ jobs:
           dotnet-version: 8
 
       - name: Restore dependencies
-        run: dotnet restore SpendManagement.WebContracts/Web.Contracts.csproj
+        run: dotnet restore SpendManagement.Receipts.Contracts/Web.Contracts.csproj
 
       - name: Determinar Tipo de Mudança
         id: determine_change_type
@@ -39,14 +39,14 @@ jobs:
           echo "Tipo de Mudança: $VERSION_UPDATE_TYPE"
 
       - name: Build
-        run: dotnet build SpendManagement.WebContracts/Web.Contracts.csproj
+        run: dotnet build SpendManagement.Receipts.Contracts/Web.Contracts.csproj
 
       - name: Bump build version - Minor
         if: env.VERSION_UPDATE_TYPE == 'MINOR'
         id: bump-minor
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.WebContracts/Web.Contracts.csproj
+          file: SpendManagement.Receipts.Contracts/Web.Contracts.csproj
           version: bump-minor
 
       - name: Bump build version - Revision
@@ -54,7 +54,7 @@ jobs:
         id: bump-revision
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.WebContracts/Web.Contracts.csproj
+          file: SpendManagement.Receipts.Contracts/Web.Contracts.csproj
           version: bump-revision
 
       - name: Commit and push changes
@@ -83,12 +83,12 @@ jobs:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Restore dependencies
-        run: dotnet restore SpendManagement.WebContracts/Web.Contracts.csproj
+        run: dotnet restore SpendManagement.Receipts.Contracts/Web.Contracts.csproj
       - name: Build
-        run: dotnet build --no-restore --configuration Release SpendManagement.WebContracts/Web.Contracts.csproj
+        run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Web.Contracts.csproj
       - name: Build solution and generate NuGet package
         run: |  
-          cd SpendManagement.WebContracts
+          cd SpendManagement.Receipts.Contracts
           dotnet pack Web.Contracts.csproj -c Release -o out 
 
       - name: Push generated package to GitHub registry 
