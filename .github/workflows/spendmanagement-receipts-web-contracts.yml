@@ -46,7 +46,7 @@ jobs:
         id: bump-minor
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.Receipts.Contractsts/Contracts.csproj
+          file: SpendManagement.Receipts.Contracts/Contracts.csproj
           version: bump-minor
 
       - name: Bump build version - Revision
