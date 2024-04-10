@@ -32,20 +32,19 @@ jobs:
           else
             echo "::set-output name=change_type::patch"
           fi
-          
+
       - name: Printar Tipo de Mudança
         run: |
           echo "Tipo de Mudança: ${{ steps.determine_change_type.outputs.change_type }}"
-          
+
       - name: Bump build version
         id: bump
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: SpendManagement.WebContracts/Web.Contracts.csproj
-          version: bump-build-${{ steps.determine_change_type.outputs.change_type }}
-          
-      - name: Commit e Push da Alteração de Versão
-        run: |
+          version: bump-build
+
+      - run: |
           git config user.name "Build - Github Actions"
           git config user.email "your-email@users.noreply.github.com"
           git add .
