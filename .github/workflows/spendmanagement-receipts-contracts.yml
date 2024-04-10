@@ -84,6 +84,7 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore SpendManagement.Receipts.Contracts/Web.Contracts.csproj
+        
       - name: Build
         run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Web.Contracts.csproj
       - name: Build solution and generate NuGet package
