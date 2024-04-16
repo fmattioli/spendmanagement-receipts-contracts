@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 
 namespace Contracts.Messaging.V1.Commands.RecurringReceiptCommands
 {
+    [DataContract]
     public struct CreateRecurringReceiptCommand(RecurringReceipt recurringReceipt) : ICommand
     {
         [IgnoreDataMember]
