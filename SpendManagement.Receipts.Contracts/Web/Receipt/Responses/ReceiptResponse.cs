@@ -1,9 +1,11 @@
-﻿using Contracts.Web.Category.Responses;
+﻿using Contracts.Web.Attributes;
+using Contracts.Web.Category.Responses;
 
 namespace Contracts.Web.Receipt.Responses
 {
     public class ReceiptResponse
     {
+        [NonEditable]
         public Guid Id { get; set; }
         public CategoryResponse Category { get; set; } = null!;
         public string EstablishmentName { get; set; } = null!;
