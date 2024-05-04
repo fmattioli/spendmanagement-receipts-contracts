@@ -74,7 +74,7 @@ jobs:
     name: Update NuGet package
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Setup .NET Core @ Latest
         uses: actions/setup-dotnet@v1
@@ -83,14 +83,16 @@ jobs:
           dotnet-version: 8.0.x
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Restore and build
-        run: |
-          dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
-          dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
 
+      - name: Restore dependencies
+        run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
+        
+      - name: Build
+        run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
       - name: Build solution and generate NuGet package
         run: |  
           cd SpendManagement.Receipts.Contracts
           dotnet pack Contracts.csproj -c Release -o out 
-          dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
 
+      - name: Push generated package to GitHub registry 
+        run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
