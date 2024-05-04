@@ -9,9 +9,26 @@ env:
   VERSION_UPDATE_TYPE: "value"
 
 jobs:
+  build-project:
+    runs-on: ubuntu-latest
+    name: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup .NET Core @ Latest
+        uses: actions/setup-dotnet@v4
+        with:
+          source-url: https://api.nuget.org/v3/index.json
+          dotnet-version: 8.0.x
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        run: dotnet build --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
+    
   update-project-version:
     runs-on: ubuntu-latest
-    name: Build and bump version
+    name: Change csproj version
+    needs: [build-project]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,10 +78,10 @@ jobs:
       - name: Commit and push changes
         if: github.ref == 'refs/heads/main'
         run: |
-          git config user.name "Build - Incrementing version | Github action"
+          git config user.name "CI - Incrementing version"
           git config user.email "deploy@spendmanagement.com"
           git add .
-          git commit -m "Bump project version to ${{ steps.bump-minor.outputs.newVersion }} ${{ steps.bump-revision.outputs.newVersion }}"
+          git commit -m "CI: Updating application version"
           git push         
 
   publish-nuGet-package:
@@ -75,7 +92,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
       - name: Setup .NET Core @ Latest
         uses: actions/setup-dotnet@v4
         with:
@@ -87,10 +103,9 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
         
-      - name: Build
-        run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
       - name: Build solution and generate NuGet package
-        run: |  
+        run: | 
+          dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
           cd SpendManagement.Receipts.Contracts
           dotnet pack Contracts.csproj -c Release -o out 
 
