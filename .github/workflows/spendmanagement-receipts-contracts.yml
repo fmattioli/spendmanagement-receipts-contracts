@@ -1,22 +1,23 @@
-name: Bump build version
-
+name: build_and_run_tests
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 env:
   VERSION_UPDATE_TYPE: "value"
 
 jobs:
-  bump:
+  update-project-version:
     runs-on: ubuntu-latest
     name: Build and bump version
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install .NET 8
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 8
 
@@ -47,7 +48,7 @@ jobs:
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: SpendManagement.Receipts.Contracts/Contracts.csproj
-          version: bump-minor
+          version: "*.^.0"
 
       - name: Bump build version - Revision
         if: env.VERSION_UPDATE_TYPE == 'REVISION'
@@ -55,20 +56,21 @@ jobs:
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
           file: SpendManagement.Receipts.Contracts/Contracts.csproj
-          version: bump-revision
+          version: "*.*.^"
 
       - name: Commit and push changes
-        if: ${{ always() }}
+        if: env.VERSION_UPDATE_TYPE == 'MINOR' || env.VERSION_UPDATE_TYPE == 'PATCH'
         run: |
           git config user.name "Build - Incrementing version | Github action"
           git config user.email "deploy@spendmanagement.com"
           git add .
           git commit -m "Bump project version to ${{ steps.bump-minor.outputs.newVersion }} ${{ steps.bump-revision.outputs.newVersion }}"
-          git push
-          
-  build:
+          git push         
+
+  publish-nuGet-package:
     runs-on: ubuntu-latest
-    needs: bump
+    needs: [update-project-version]
+    if: github.ref == 'refs/heads/main'
     name: Update NuGet package
     steps:
       - name: Checkout repository
@@ -81,16 +83,12 @@ jobs:
           dotnet-version: 8.0.x
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Restore dependencies
-        run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
-        
       - name: Build
         run: dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
       - name: Build solution and generate NuGet package
         run: |  
           cd SpendManagement.Receipts.Contracts
           dotnet pack Contracts.csproj -c Release -o out 
-
       - name: Push generated package to GitHub registry 
         run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
+
