@@ -100,6 +100,12 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Clean output directory
+        run: |
+          if [ -d "SpendManagement.Receipts.Contracts/out" ]; then
+            rm -r SpendManagement.Receipts.Contracts/out
+          fi
+
       - name: Restore dependencies
         run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
         
