@@ -136,4 +136,4 @@ jobs:
         run: ls -la SpendManagement.Receipts.Contracts/out
 
       - name: Push generated package to NuGet
-        run: dotnet nuget push SpendManagement.Receipts.Contracts/out/SpendManagement.Receipts.Contracts.$VERSION.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
