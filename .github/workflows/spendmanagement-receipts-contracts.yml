@@ -1,4 +1,5 @@
 name: build_and_run_tests
+
 on:
   push:
     branches: [ "main" ]
@@ -18,13 +19,14 @@ jobs:
       - name: Setup .NET Core @ Latest
         uses: actions/setup-dotnet@v4
         with:
-          source-url: https://api.nuget.org/v3/index.json
           dotnet-version: 8.0.x
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore dependencies
+        run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
       - name: Build
         run: dotnet build --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
-    
+
   bump:
     name: Update project version
     runs-on: ubuntu-latest
@@ -32,7 +34,6 @@ jobs:
     outputs:
       version: ${{ steps.set-version.outputs.VERSION }}
       version_update_type: ${{ steps.determine_update_type.outputs.VERSION_UPDATE_TYPE }} 
-      
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout
@@ -44,12 +45,13 @@ jobs:
           if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "feat"; then
             echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_OUTPUT
             echo "VERSION_UPDATE_TYPE=MINOR" >> $GITHUB_ENV
-          fi
-          if echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
+          elif echo "$LAST_COMMIT_MESSAGE" | grep -qiE "fix"; then
             echo "VERSION_UPDATE_TYPE=REVISION" >> $GITHUB_OUTPUT
             echo "VERSION_UPDATE_TYPE=REVISION" >> $GITHUB_ENV
+          else
+            echo "VERSION_UPDATE_TYPE=NONE" >> $GITHUB_OUTPUT
+            echo "VERSION_UPDATE_TYPE=NONE" >> $GITHUB_ENV
           fi
-
       - name: Print Update type
         run: |
           echo "Tipo de Mudança: ${{ steps.determine_update_type.outputs.VERSION_UPDATE_TYPE }}"
@@ -69,7 +71,7 @@ jobs:
         with:
           file: SpendManagement.Receipts.Contracts/Contracts.csproj
           version: "*.*.^"
-          
+
       - name: Commit and push changes - MINOR
         if: env.VERSION_UPDATE_TYPE == 'MINOR'
         run: |
@@ -112,7 +114,6 @@ jobs:
       - name: Setup .NET Core @ Latest
         uses: actions/setup-dotnet@v4
         with:
-          source-url: https://api.nuget.org/v3/index.json
           dotnet-version: 8.0.x
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -129,8 +130,10 @@ jobs:
       - name: Build solution and generate NuGet package
         run: | 
           dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
-          cd SpendManagement.Receipts.Contracts
-          dotnet pack Contracts.csproj -c Release -o out 
+          dotnet pack SpendManagement.Receipts.Contracts/Contracts.csproj --no-build --configuration Release --output SpendManagement.Receipts.Contracts/out
 
-      - name: Push generated package to GitHub registry 
-        run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/SpendManagement.Receipts.Contracts.$VERSION.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: List output directory
+        run: ls -la SpendManagement.Receipts.Contracts/out
+
+      - name: Push generated package to NuGet
+        run: dotnet nuget push SpendManagement.Receipts.Contracts/out/SpendManagement.Receipts.Contracts.$VERSION.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
