@@ -23,10 +23,10 @@ namespace Contracts.Web.Receipt.Requests
         public IEnumerable<string>? EstablishmentNames { get; set; }
 
         [FromQuery]
-        public DateTime ReceiptDate { get; set; }
+        public DateTime ReceiptDateInitial { get; set; }
 
         [FromQuery]
-        public DateTime ReceiptDateFinal { get; set; }
+        public DateTime ReceiptDateEnd { get; set; }
 
         [FromQuery]
         public IEnumerable<Guid>? ReceiptItemIds { get; set; }

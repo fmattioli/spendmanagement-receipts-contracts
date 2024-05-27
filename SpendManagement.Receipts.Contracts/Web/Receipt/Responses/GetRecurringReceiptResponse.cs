@@ -3,7 +3,7 @@ using Contracts.Web.Category.Responses;
 
 namespace Contracts.Web.Receipt.Responses
 {
-    public class RecurringReceiptResponse
+    public class GetRecurringReceiptResponse
     {
         [NonEditable]
         public Guid Id { get; set; }

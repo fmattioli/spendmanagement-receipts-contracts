@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Web.Receipt.Responses
 {
-    public class ReceiptItemResponse
+    public class GetReceiptItemResponse
     {
         public Guid Id { get; set; }
         public string ItemName { get; set; } = null!;
