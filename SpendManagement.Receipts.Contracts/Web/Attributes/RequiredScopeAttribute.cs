@@ -15,7 +15,7 @@ namespace Contracts.Web.Attributes
             var scopeClaim = user.FindFirst("scope");
             if (scopeClaim == null || !scopeClaim.Value.Split(' ').Contains(_scope))
             {
-                throw new ForbiddenAccessException($"Scope {scopeClaim} not available on user {user!.Identity!.Name}.");
+                throw new ForbiddenAccessException($"Scope {_scope} not attribuited on user {user!.Identity!.Name}.");
             }
         }
     }
