@@ -1,4 +1,4 @@
-﻿using Contracts.Web.Common;
+﻿using Contracts.Web.Exceptions;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Contracts.Web.Attributes
@@ -15,7 +15,7 @@ namespace Contracts.Web.Attributes
             var scopeClaim = user.FindFirst("scope");
             if (scopeClaim == null || !scopeClaim.Value.Split(' ').Contains(_scope))
             {
-                context.Result = new CustomForbidResult($"Scope {scopeClaim} not available on user {user!.Identity!.Name}.");
+                throw new ForbiddenAccessException($"Scope {scopeClaim} not available on user {user!.Identity!.Name}.");
             }
         }
     }
