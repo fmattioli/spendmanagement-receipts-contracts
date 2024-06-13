@@ -1,8 +1,16 @@
 ﻿namespace Contracts.Messaging.V1.Entities
 {
-    public class RecurringReceipt(Guid id, Category category, string? establishmentName, DateTime dateInitialRecurrence, DateTime dateEndRecurrence, decimal recurrenceTotalPrice, string? observation)
+    public class RecurringReceipt(Guid id,
+        int tenantId,
+        Category category,
+        string? establishmentName,
+        DateTime dateInitialRecurrence,
+        DateTime dateEndRecurrence,
+        decimal recurrenceTotalPrice,
+        string? observation)
     {
         public Guid Id { get; set; } = id;
+        public int TenantId { get; set; } = tenantId;
         public Category Category { get; set; } = category;
         public string? EstablishmentName { get; set; } = establishmentName;
         public DateTime DateInitialRecurrence { get; set; } = dateInitialRecurrence;

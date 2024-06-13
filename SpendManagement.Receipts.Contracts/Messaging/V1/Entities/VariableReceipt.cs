@@ -1,8 +1,9 @@
 ﻿namespace Contracts.Messaging.V1.Entities
 {
-    public class Receipt(Guid id, Category category, string establishmentName, DateTime receiptDate, decimal discount, decimal total)
+    public class VariableReceipt(Guid id, int tenantId, Category category, string establishmentName, DateTime receiptDate, decimal discount, decimal total)
     {
         public Guid Id { get; set; } = id;
+        public int TenantId { get; set; } = tenantId;
         public Category Category { get; set; } = category;
         public string EstablishmentName { get; set; } = establishmentName;
         public DateTime ReceiptDate { get; set; } = receiptDate;
