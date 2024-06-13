@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Contracts.Messaging.V1.Events.ReceiptEvents
 {
-    public struct DeletedReceiptEvent(Guid id) : IEvent
+    public struct DeletedVariableReceiptEvent(Guid id) : IEvent
     {
         [IgnoreDataMember]
         public string RoutingKey { get; set; } = id.ToString();

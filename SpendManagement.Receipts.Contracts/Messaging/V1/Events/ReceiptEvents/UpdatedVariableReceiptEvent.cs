@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace Contracts.Messaging.V1.Events.ReceiptEvents
 {
-    public struct UpdatedReceiptEvent(VariableReceipt receipt, IEnumerable<VariableReceiptItem> receiptItems) : IEvent
+    public struct UpdatedVariableReceiptEvent(VariableReceipt receipt, IEnumerable<VariableReceiptItem> receiptItems) : IEvent
     {
         [IgnoreDataMember]
         public string RoutingKey { get; set; } = receipt.Id.ToString();
