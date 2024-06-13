@@ -2,9 +2,9 @@
 using Contracts.Messaging.V1.Entities;
 using System.Runtime.Serialization;
 
-namespace Contracts.Messaging.V1.Commands.ReceiptCommands
+namespace Contracts.Messaging.V1.Commands.VariableReceiptCommands
 {
-    public struct UpdateReceiptCommand(Receipt receipt, IEnumerable<ReceiptItem> receiptItems) : ICommand
+    public struct UpdateVariableReceiptCommand(VariableReceipt receipt, IEnumerable<VariableReceiptItem> receiptItems) : ICommand
     {
         [IgnoreDataMember]
         public string RoutingKey { get; set; } = receipt.Id.ToString();
@@ -13,9 +13,9 @@ namespace Contracts.Messaging.V1.Commands.ReceiptCommands
         public DateTime CommandCreatedDate { get; set; } = DateTime.UtcNow;
 
         [DataMember(Order = 1)]
-        public Receipt Receipt { get; set; } = receipt;
+        public VariableReceipt Receipt { get; set; } = receipt;
 
         [DataMember(Order = 2)]
-        public IEnumerable<ReceiptItem> ReceiptItems { get; set; } = receiptItems;
+        public IEnumerable<VariableReceiptItem> ReceiptItems { get; set; } = receiptItems;
     }
 }

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace Contracts.Messaging.V1.Events.ReceiptEvents
 {
-    public struct CreatedReceiptEvent(Receipt receipt, IEnumerable<ReceiptItem> receiptItem) : IEvent
+    public struct CreatedReceiptEvent(VariableReceipt receipt, IEnumerable<VariableReceiptItem> receiptItem) : IEvent
     {
         [IgnoreDataMember]
         public string RoutingKey { get; set; } = receipt.Id.ToString();
@@ -12,9 +12,9 @@ namespace Contracts.Messaging.V1.Events.ReceiptEvents
         public DateTime EventCreatedDate { get; set; } = DateTime.UtcNow;
 
         [DataMember(Order = 1)]
-        public Receipt Receipt { get; set; } = receipt;
+        public VariableReceipt Receipt { get; set; } = receipt;
 
         [DataMember(Order = 2)]
-        public IEnumerable<ReceiptItem> ReceiptItem { get; set; } = receiptItem;
+        public IEnumerable<VariableReceiptItem> ReceiptItem { get; set; } = receiptItem;
     }
 }

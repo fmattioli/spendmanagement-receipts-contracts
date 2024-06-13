@@ -1,9 +1,9 @@
 ﻿using Contracts.Messaging.Interfaces;
 using System.Runtime.Serialization;
 
-namespace Contracts.Messaging.V1.Commands.ReceiptCommands
+namespace Contracts.Messaging.V1.Commands.VariableReceiptCommands
 {
-    public struct DeleteReceiptCommand(Guid id) : ICommand
+    public struct DeleteVariableReceiptCommand(Guid id) : ICommand
     {
         [IgnoreDataMember]
         public string RoutingKey { get; set; } = id.ToString();

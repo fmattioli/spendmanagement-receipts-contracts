@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Messaging.V1.Entities
 {
-    public class ReceiptItem(Guid id, string itemName, short quantity, decimal itemPrice, string observation, decimal itemDiscount, decimal totalPrice)
+    public class VariableReceiptItem(Guid id, string itemName, short quantity, decimal itemPrice, string observation, decimal itemDiscount, decimal totalPrice)
     {
         public Guid Id { get; set; } = id;
         public string ItemName { get; set; } = itemName;
