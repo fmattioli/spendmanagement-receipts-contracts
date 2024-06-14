@@ -42,16 +42,22 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 
                                     var bearerToken = tokenJwt.Replace("Bearer ", "");
                                     var tokenInfos = tokenHandler.ReadJwtToken(bearerToken);
-                                    var tenantClaim = tokenInfos.Claims.FirstOrDefault(c => c.Type == "tenant")?.Value;
-                                    var realmConfig = authSettings.Realms.FirstOrDefault(realm => realm.Name == tenantClaim);
+                                    var tenantNumber = tokenInfos.Claims.FirstOrDefault(c => c.Type == "tenant")?.Value;
+                                    var tenantRealm = authSettings.Realms.FirstOrDefault(realm => realm.Name == tenantNumber);
 
-                                    if (realmConfig is null)
+                                    if (tenantRealm is null)
                                     {
                                         context.NoResult();
                                         return;
                                     }
 
-                                    var jwksUrl = $"{realmConfig.Issuer}/protocol/openid-connect/certs";
+                                    var tokenScopes = tokenInfos.Claims.FirstOrDefault(c => c.Type == "scope")?.Value.Split(" ")!;
+                                    if (authSettings.Scopes?.Any(scope => tokenScopes.Contains(scope)) ?? false)
+                                    {
+                                        context.NoResult();
+                                        return;
+                                    }
+                                    var jwksUrl = $"{tenantRealm.Issuer}/protocol/openid-connect/certs";
 
                                     var jwks = await httpClient.GetStringAsync(jwksUrl);
                                     var jsonWebKeySet = new JsonWebKeySet(jwks);
@@ -59,9 +65,9 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     var tokenValidationParameters = new TokenValidationParameters
                                     {
                                         ValidateIssuer = true,
-                                        ValidIssuer = realmConfig.Issuer,
+                                        ValidIssuer = tenantRealm.Issuer,
                                         ValidateAudience = true,
-                                        ValidAudience = realmConfig.Audience,
+                                        ValidAudience = tenantRealm.Audience,
                                         ValidateLifetime = true,
                                         ValidateIssuerSigningKey = true,
                                         IssuerSigningKeys = jsonWebKeySet.Keys
