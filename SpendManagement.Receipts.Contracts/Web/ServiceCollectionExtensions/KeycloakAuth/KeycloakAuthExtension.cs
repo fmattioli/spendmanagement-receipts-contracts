@@ -2,6 +2,7 @@
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,27 +37,34 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 
                                     if (string.IsNullOrEmpty(tokenJwt))
                                     {
-                                        context.Fail("Token validation failed");
+                                        context.Response.StatusCode = 401;
+                                        context.Response.ContentType = "application/json";
+                                        await context.Response.WriteAsJsonAsync("Invalid JWT token provided! Please check. ");
                                         return;
                                     }
 
                                     var bearerToken = tokenJwt.Replace("Bearer ", "");
-                                    var tokenInfos = tokenHandler.ReadJwtToken(bearerToken);
+                                    var tokenInfos = tokenHandler.ReadJwtToken(tokenJwt.Replace("Bearer ", ""));
                                     var tenantNumber = tokenInfos.Claims.FirstOrDefault(c => c.Type == "tenant")?.Value;
                                     var tenantRealm = authSettings.Realms.FirstOrDefault(realm => realm.Name == tenantNumber);
 
                                     if (tenantRealm is null)
                                     {
-                                        context.NoResult();
+                                        context.Response.StatusCode = 401;
+                                        context.Response.ContentType = "application/json";
+                                        await context.Response.WriteAsJsonAsync("This token don't belongs to valid tenant. Please check!");
                                         return;
                                     }
 
-                                    var tokenScopes = tokenInfos.Claims.FirstOrDefault(c => c.Type == "scope")?.Value.Split(" ")!;
-                                    if (authSettings.Scopes?.Any(scope => tokenScopes.Contains(scope)) ?? false)
+                                    var audience = tokenInfos.Claims.FirstOrDefault(c => c.Type == "aud")?.Value;
+                                    if (string.IsNullOrEmpty(audience))
                                     {
-                                        context.NoResult();
+                                        context.Response.StatusCode = 403;
+                                        context.Response.ContentType = "application/json";
+                                        await context.Response.WriteAsJsonAsync("Invalid scope provided! Please, check the scopes provided!");
                                         return;
                                     }
+
                                     var jwksUrl = $"{tenantRealm.Issuer}/protocol/openid-connect/certs";
 
                                     var jwks = await httpClient.GetStringAsync(jwksUrl);
@@ -77,9 +85,11 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     context.Principal = claims;
                                     context.Success();
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
-                                    context.Fail("Token validation failed");
+                                    context.Response.StatusCode = 500;
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsJsonAsync("The following error occurs during the authentication process: " + e.Message);
                                 }
                             }
                         };
