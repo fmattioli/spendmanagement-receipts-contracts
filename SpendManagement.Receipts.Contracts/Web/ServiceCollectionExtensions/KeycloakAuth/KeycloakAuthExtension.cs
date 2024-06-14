@@ -2,7 +2,6 @@
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -38,8 +37,7 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     if (string.IsNullOrEmpty(tokenJwt))
                                     {
                                         context.Response.StatusCode = 401;
-                                        context.Response.ContentType = "application/json";
-                                        await context.Response.WriteAsJsonAsync("Invalid JWT token provided! Please check. ");
+                                        context.Fail("Invalid JWT token provided! Please check. ");
                                         return;
                                     }
 
@@ -51,8 +49,7 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     if (tenantRealm is null)
                                     {
                                         context.Response.StatusCode = 401;
-                                        context.Response.ContentType = "application/json";
-                                        await context.Response.WriteAsJsonAsync("This token don't belongs to valid tenant. Please check!");
+                                        context.Fail("This token don't belongs to valid tenant. Please check!");
                                         return;
                                     }
 
@@ -60,8 +57,7 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     if (string.IsNullOrEmpty(audience))
                                     {
                                         context.Response.StatusCode = 403;
-                                        context.Response.ContentType = "application/json";
-                                        await context.Response.WriteAsJsonAsync("Invalid scope provided! Please, check the scopes provided!");
+                                        context.Fail("Invalid scope provided! Please, check the scopes provided!");
                                         return;
                                     }
 
@@ -88,8 +84,7 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                 catch (Exception e)
                                 {
                                     context.Response.StatusCode = 500;
-                                    context.Response.ContentType = "application/json";
-                                    await context.Response.WriteAsJsonAsync("The following error occurs during the authentication process: " + e.Message);
+                                    context.Fail("The following error occurs during the authentication process: " + e.Message);
                                 }
                             }
                         };
