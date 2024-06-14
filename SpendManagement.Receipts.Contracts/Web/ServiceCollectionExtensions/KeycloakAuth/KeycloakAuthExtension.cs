@@ -1,10 +1,13 @@
 ﻿using Contracts.Web.Services.Auth;
+
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
@@ -37,7 +40,8 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 
                                     if (string.IsNullOrEmpty(tokenJwt))
                                     {
-                                        context.Fail("Invalid JWT token provided! Please check. ");
+                                        context.HttpContext.Items["AuthError"] = "Invalid JWT token provided! Please check. ";
+                                        context.HttpContext.Items["AuthStatusCode"] = 401;
                                         return;
                                     }
 
@@ -48,14 +52,18 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 
                                     if (tenantRealm is null)
                                     {
-                                        context.Fail("This token don't belongs to valid tenant. Please check!");
+                                        context.HttpContext.Items["AuthError"] = "This token don't belongs to valid tenant. Please check!";
+                                        context.HttpContext.Items["AuthStatusCode"] = 401;
+                                        context.NoResult();
                                         return;
                                     }
 
                                     var audience = tokenInfos.Claims.FirstOrDefault(c => c.Type == "aud")?.Value;
                                     if (string.IsNullOrEmpty(audience))
                                     {
-                                        context.Fail("Invalid scope provided! Please, check the scopes provided!");
+                                        context.HttpContext.Items["AuthError"] = "Invalid scope provided! Please, check the scopes provided!";
+                                        context.HttpContext.Items["AuthStatusCode"] = 403;
+                                        context.NoResult();
                                         return;
                                     }
 
@@ -91,6 +99,19 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                 context.Response.StatusCode = 401;
                                 context.Response.ContentType = "application/json";
                                 await context.Response.WriteAsJsonAsync(errorDescription);
+                            },
+                            OnChallenge = async context =>
+                            {
+                                if (!context.Response.HasStarted)
+                                {
+                                    var errorMessage = context.HttpContext.Items["AuthError"] as string ?? "Authentication failed!";
+                                    var statusCode = context.HttpContext.Items["AuthStatusCode"] as int? ?? 401;
+                                    var responseMessage = new { message = errorMessage, error = context.ErrorDescription };
+                                    context.Response.StatusCode = statusCode;
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsJsonAsync(responseMessage);
+                                }
+                                context.HandleResponse();
                             }
                         };
                     }
