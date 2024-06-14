@@ -32,11 +32,19 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                             {
                                 try
                                 {
-                                    var bearerToken = context.Request.Headers.Authorization.FirstOrDefault()!.Replace("Bearer ", "");
+                                    var tokenJwt = context.Request.Headers.Authorization.FirstOrDefault();
+
+                                    if (string.IsNullOrEmpty(tokenJwt))
+                                    {
+                                        context.Fail("Token validation failed");
+                                        return;
+                                    }
+
+                                    var bearerToken = tokenJwt.Replace("Bearer ", "");
                                     var tokenInfos = tokenHandler.ReadJwtToken(bearerToken);
                                     var tenantClaim = tokenInfos.Claims.FirstOrDefault(c => c.Type == "tenant")?.Value;
-
                                     var realmConfig = authSettings.Realms.FirstOrDefault(realm => realm.Name == tenantClaim);
+
                                     if (realmConfig is null)
                                     {
                                         context.NoResult();
