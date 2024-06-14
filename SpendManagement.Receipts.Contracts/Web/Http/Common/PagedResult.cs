@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Contracts.Web.Common
+namespace Contracts.Web.Http.Common
 {
     public class PagedResult<T>
     {

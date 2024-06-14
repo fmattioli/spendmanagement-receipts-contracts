@@ -1,7 +1,7 @@
-﻿using Contracts.Web.Common;
+﻿using Contracts.Web.Http.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Contracts.Web.Category.Requests
+namespace Contracts.Web.Http.Category.Requests
 {
     public record GetCategoriesRequest
     {

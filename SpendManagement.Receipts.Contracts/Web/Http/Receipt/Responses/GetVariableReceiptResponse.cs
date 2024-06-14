@@ -1,7 +1,7 @@
 ﻿using Contracts.Web.Attributes;
-using Contracts.Web.Category.Responses;
+using Contracts.Web.Http.Category.Responses;
 
-namespace Contracts.Web.Receipt.Responses
+namespace Contracts.Web.Http.Receipt.Responses
 {
     public class GetVariableReceiptResponse
     {

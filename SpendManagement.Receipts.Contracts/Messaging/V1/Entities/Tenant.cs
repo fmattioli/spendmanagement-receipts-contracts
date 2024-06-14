@@ -1,7 +1,7 @@
 ﻿namespace Contracts.Messaging.V1.Entities
 {
-    public class Tenant(int id)
+    public class Tenant(int number)
     {
-        public int Id { get; set; } = id;
+        public int Number { get; set; } = number;
     }
 }
