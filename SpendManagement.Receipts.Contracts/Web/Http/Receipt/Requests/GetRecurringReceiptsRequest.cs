@@ -1,7 +1,7 @@
-﻿using Contracts.Web.Common;
+﻿using Contracts.Web.Http.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Contracts.Web.Receipt.Requests
+namespace Contracts.Web.Http.Receipt.Requests
 {
     public class GetRecurringReceiptsRequest
     {

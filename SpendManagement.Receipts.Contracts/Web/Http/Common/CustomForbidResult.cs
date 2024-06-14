@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Contracts.Web.Common
+namespace Contracts.Web.Http.Common
 {
     public class CustomForbidResult : ObjectResult
     {

@@ -1,4 +1,4 @@
-﻿namespace Contracts.Web.Receipt.Requests
+﻿namespace Contracts.Web.Http.Receipt.Requests
 {
     public class GetDetailedSpentPerCategoryRequest
     {

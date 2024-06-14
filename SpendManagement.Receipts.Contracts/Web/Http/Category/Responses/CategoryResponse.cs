@@ -1,6 +1,6 @@
 ﻿using Contracts.Web.Attributes;
 
-namespace Contracts.Web.Category.Responses
+namespace Contracts.Web.Http.Category.Responses
 {
     public class CategoryResponse
     {
