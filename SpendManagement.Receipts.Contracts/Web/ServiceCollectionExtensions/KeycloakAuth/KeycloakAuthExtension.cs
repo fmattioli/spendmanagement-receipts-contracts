@@ -86,10 +86,8 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                     }
                 );
 
-            services.AddSingleton<JwtSecurityTokenHandler>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddHttpContextAccessor();
-            services.AddScoped<IAuthService, AuthService>();
+            services.AddSingleton<JwtSecurityTokenHandler>()
+                    .AddScoped<IAuthService, AuthService>();
 
             return services;
         }
