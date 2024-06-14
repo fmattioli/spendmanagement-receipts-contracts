@@ -2,6 +2,7 @@
 using Keycloak.AuthServices.Authentication;
 using Keycloak.AuthServices.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -36,7 +37,6 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 
                                     if (string.IsNullOrEmpty(tokenJwt))
                                     {
-                                        context.Response.StatusCode = 401;
                                         context.Fail("Invalid JWT token provided! Please check. ");
                                         return;
                                     }
@@ -48,7 +48,6 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 
                                     if (tenantRealm is null)
                                     {
-                                        context.Response.StatusCode = 401;
                                         context.Fail("This token don't belongs to valid tenant. Please check!");
                                         return;
                                     }
@@ -56,7 +55,6 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     var audience = tokenInfos.Claims.FirstOrDefault(c => c.Type == "aud")?.Value;
                                     if (string.IsNullOrEmpty(audience))
                                     {
-                                        context.Response.StatusCode = 403;
                                         context.Fail("Invalid scope provided! Please, check the scopes provided!");
                                         return;
                                     }
@@ -86,6 +84,13 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                     context.Response.StatusCode = 500;
                                     context.Fail("The following error occurs during the authentication process: " + e.Message);
                                 }
+                            },
+                            OnAuthenticationFailed = async context =>
+                            {
+                                var errorDescription = context.Exception.Message;
+                                context.Response.StatusCode = 401;
+                                context.Response.ContentType = "application/json";
+                                await context.Response.WriteAsJsonAsync(errorDescription);
                             }
                         };
                     }
