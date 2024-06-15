@@ -3,5 +3,6 @@
     public interface IAuthService
     {
         int GetTenant();
+        Guid GetUser();
     }
 }

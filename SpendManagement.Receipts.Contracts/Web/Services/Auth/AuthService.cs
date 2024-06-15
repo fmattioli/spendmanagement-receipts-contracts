@@ -16,6 +16,14 @@ namespace Contracts.Web.Services.Auth
             return int.Parse(tenantClaim);
         }
 
+        public Guid GetUser()
+        {
+            string jwtToken = GetToken();
+            var tokenInfos = _tokenHandler.ReadJwtToken(jwtToken);
+            var userClaim = tokenInfos.Claims.FirstOrDefault(c => c.Type == "aud")?.Value!;
+            return Guid.Parse(userClaim);
+        }
+
         private string GetToken()
         {
             var authorizationHeader = _httpContextAccessor.HttpContext!.Request.Headers["Authorization"].FirstOrDefault();
