@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>SpendManagement.Receipts.Contracts</PackageId>
-    <Version>1.23.0</Version>
+    <Version>1.23.1</Version>
     <PackageIcon>27566574.jpg</PackageIcon>
   </PropertyGroup>
   <ItemGroup>
