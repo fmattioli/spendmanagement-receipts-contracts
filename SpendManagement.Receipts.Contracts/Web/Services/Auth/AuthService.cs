@@ -26,7 +26,7 @@ namespace Contracts.Web.Services.Auth
 
         private string GetToken()
         {
-            var authorizationHeader = _httpContextAccessor.HttpContext!.Request.Headers["Authorization"].FirstOrDefault();
+            var authorizationHeader = _httpContextAccessor.HttpContext!.Request.Headers.Authorization.FirstOrDefault();
             return authorizationHeader!.Replace("Bearer ", string.Empty);
         }
     }
