@@ -4,14 +4,11 @@ using Contracts.Web.Http.Category.Responses;
 using Contracts.Web.Http.Common;
 using Contracts.Web.Http.Receipt.Requests;
 using Contracts.Web.Http.Receipt.Responses;
-using Microsoft.Extensions.Logging;
 
 namespace Contracts.Web.Http.Client.QueryHandler
 {
-    public class QueryHandlerClient(HttpClient httpClient, ILogger logger) : BaseClient(httpClient), IQueryHandlerClient
+    public class QueryHandlerClient(HttpClient httpClient) : BaseClient(httpClient), IQueryHandlerClient
     {
-        private readonly ILogger _logger = logger;
-
         public async Task<PagedResult<CategoryResponse>> GetCategoriesAsync(GetCategoriesRequest categoriesRequest)
         {
             var category = await GetAsync<PagedResult<CategoryResponse>, GetCategoriesRequest>("getCategories", categoriesRequest)
