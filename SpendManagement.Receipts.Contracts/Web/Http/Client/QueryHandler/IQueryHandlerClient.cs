@@ -6,7 +6,7 @@ using Contracts.Web.Http.Receipt.Responses;
 
 namespace Contracts.Web.Http.Client.QueryHandler
 {
-    internal interface IQueryHandlerClient
+    public interface IQueryHandlerClient
     {
         Task<PagedResult<GetVariableReceiptResponse>> GetVariableReceiptsAsync(GetVariableReceiptsRequest variableReceiptsRequest);
 
