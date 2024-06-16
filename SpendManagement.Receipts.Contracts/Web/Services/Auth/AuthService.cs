@@ -20,7 +20,7 @@ namespace Contracts.Web.Services.Auth
         {
             string jwtToken = GetToken();
             var tokenInfos = _tokenHandler.ReadJwtToken(jwtToken);
-            var userClaim = tokenInfos.Claims.FirstOrDefault(c => c.Type == "aud")?.Value!;
+            var userClaim = tokenInfos.Claims.FirstOrDefault(c => c.Type == "sub")?.Value!;
             return Guid.Parse(userClaim);
         }
 
