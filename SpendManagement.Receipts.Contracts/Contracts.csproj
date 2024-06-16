@@ -12,6 +12,7 @@
     <Description>The SpendManagement.Receitps.Contracts was created with the purpose of being a package that contains the commands and the events definitions related to the SpendManagement project on Receipts boundary. This package also contains some web references to the Receipts boundary.</Description>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Flurl" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
