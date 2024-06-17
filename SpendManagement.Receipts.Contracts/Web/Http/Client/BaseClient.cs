@@ -51,7 +51,7 @@ namespace Contracts.Web.Http.Client
                             builder.AppendJoin("&", enumerableString.Select(item => $"{propertyValue.Name}=" + item));
                         }
 
-                        if (value is DateTime dateTime)
+                        if (value is DateTime dateTime && dateTime != DateTime.MinValue)
                         {
                             builder
                             .Append(propertyValue.Name)
