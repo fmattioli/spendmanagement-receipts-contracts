@@ -63,7 +63,6 @@ namespace Contracts.Web.Http.Client
                             .Append(dateTime.Day);
                         }
 
-
                         return builder.ToString();
                     });
         }
