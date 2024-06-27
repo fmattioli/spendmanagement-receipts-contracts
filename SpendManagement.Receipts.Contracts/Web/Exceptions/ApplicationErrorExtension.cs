@@ -1,8 +1,8 @@
 ﻿namespace Contracts.Web.Exceptions
 {
-    public readonly class ApplicationErrorExtension
+    public static class ApplicationErrorExtension
     {
-        public readonly async Task<T> HandleExceptions<T>(this Task<T> task, string requestName)
+        public static async Task<T> HandleExceptions<T>(this Task<T> task, string requestName)
            where T : class
         {
             try

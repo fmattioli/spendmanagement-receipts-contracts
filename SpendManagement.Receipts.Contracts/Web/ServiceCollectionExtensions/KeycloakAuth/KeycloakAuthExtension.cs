@@ -9,9 +9,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
 {
-    public readonly class KeycloakAuthExtension
+    public static class KeycloakAuthExtension
     {
-        public readonly IServiceCollection AddKeyCloakAuth(this IServiceCollection services, AuthSettings authSettings)
+        public static IServiceCollection AddKeyCloakAuth(this IServiceCollection services, AuthSettings authSettings)
         {
             var httpClient = new HttpClient();
             var tokenHandler = new JwtSecurityTokenHandler();
