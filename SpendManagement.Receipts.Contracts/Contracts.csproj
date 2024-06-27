@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>SpendManagement.Receipts.Contracts</PackageId>
-    <Version>1.25.4</Version>
+    <Version>1.26.0</Version>
     <PackageIcon>1.jpg</PackageIcon>
     <Company>SpendManagement</Company>
     <Description>The SpendManagement.Receitps.Contracts was created with the purpose of being a package that contains the commands and the events definitions related to the SpendManagement project on Receipts boundary. This package also contains some web references to the Receipts boundary.</Description>
