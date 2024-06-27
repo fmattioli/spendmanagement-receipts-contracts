@@ -87,7 +87,8 @@ namespace Contracts.Web.ServiceCollectionExtensions.KeycloakAuth
                                 catch (Exception e)
                                 {
                                     context.Response.StatusCode = 500;
-                                    context.Fail("The following error occurs during the authentication process: " + e.Message);
+                                    context.HttpContext.Items["AuthError"] = "The following error occurs during the authentication process: " + e.Message;
+                                    context.Fail("");
                                 }
                             },
                             OnAuthenticationFailed = async context =>
