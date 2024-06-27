@@ -25,7 +25,7 @@ namespace Contracts.Web.Http.Client
             return result!;
         }
 
-        private static IEnumerable<string> BuildFilters<T>(T queryFilters) where T : class
+        private readonly IEnumerable<string> BuildFilters<T>(T queryFilters) where T : class
         {
             return queryFilters
                 .GetType()

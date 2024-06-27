@@ -8,6 +8,6 @@
         public decimal ItemPrice { get; set; } = itemPrice;
         public string Observation { get; set; } = observation;
         public decimal ItemDiscount { get; set; } = itemDiscount;
-        public decimal TotalPrice { get; private set; } = totalPrice;
+        public decimal TotalPrice { get; set; } = totalPrice;
     }
 }
