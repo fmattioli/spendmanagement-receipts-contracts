@@ -7,20 +7,24 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>SpendManagement.Receipts.Contracts</PackageId>
     <Version>1.26.0</Version>
-    <PackageIcon>1.jpg</PackageIcon>
+    <PackageIcon>1.png</PackageIcon>
     <Company>SpendManagement</Company>
     <Description>The SpendManagement.Receitps.Contracts was created with the purpose of being a package that contains the commands and the events definitions related to the SpendManagement project on Receipts boundary. This package also contains some web references to the Receipts boundary.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Flurl" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.0" />
-    <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.5.1" />
-    <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.5.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.6.2" />
+    <PackageReference Include="Keycloak.AuthServices.Authentication" Version="2.5.2" />
+    <PackageReference Include="Keycloak.AuthServices.Authorization" Version="2.5.2" />
   </ItemGroup>
   <ItemGroup>
     <None Update="1.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="1.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
