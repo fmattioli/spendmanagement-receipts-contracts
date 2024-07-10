@@ -3,8 +3,12 @@ name: build_and_run_tests
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'src/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - 'src/**'
 
 env:
   VERSION_UPDATE_TYPE: "value"
@@ -23,9 +27,9 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Restore dependencies
-        run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
+        run: dotnet restore src/SpendManagement.Receipts.Contracts/Contracts.csproj
       - name: Build
-        run: dotnet build --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
+        run: dotnet build --configuration Release src/SpendManagement.Receipts.Contracts/Contracts.csproj
 
   bump:
     name: Update project version
@@ -61,7 +65,7 @@ jobs:
         id: bump-minor
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.Receipts.Contracts/Contracts.csproj
+          file: src/SpendManagement.Receipts.Contracts/Contracts.csproj
           version: "*.^.0"
 
       - name: Bump build version - Revision
@@ -69,7 +73,7 @@ jobs:
         id: bump-revision
         uses: vers-one/dotnet-project-version-updater@v1.5
         with:
-          file: SpendManagement.Receipts.Contracts/Contracts.csproj
+          file: src/SpendManagement.Receipts.Contracts/Contracts.csproj
           version: "*.*.^"
 
       - name: Commit and push changes - MINOR
@@ -118,23 +122,14 @@ jobs:
           dotnet-version: 8.0.x
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Clean output directory
-        run: |
-          if [ -d "SpendManagement.Receipts.Contracts/out" ]; then
-            rm -r SpendManagement.Receipts.Contracts/out
-          fi
-
+      
       - name: Restore dependencies
-        run: dotnet restore SpendManagement.Receipts.Contracts/Contracts.csproj
+        run: dotnet restore src/SpendManagement.Receipts.Contracts/Contracts.csproj
         
       - name: Build solution and generate NuGet package
         run: | 
-          dotnet build --no-restore --configuration Release SpendManagement.Receipts.Contracts/Contracts.csproj
-          dotnet pack SpendManagement.Receipts.Contracts/Contracts.csproj --no-build --configuration Release --output SpendManagement.Receipts.Contracts/out
-
-      - name: List output directory
-        run: ls -la SpendManagement.Receipts.Contracts/out
-
+          dotnet build --no-restore --configuration Release src/SpendManagement.Receipts.Contracts/Contracts.csproj
+          dotnet pack src/SpendManagement.Receipts.Contracts/Contracts.csproj --no-build --configuration Release --output SpendManagement.Receipts.Contracts/out
+      
       - name: Push generated package to NuGet
         run: dotnet nuget push ./SpendManagement.Receipts.Contracts/out/*.nupkg --api-key ${{ secrets.WEBCONTRACTS_API_KEY }} --source https://api.nuget.org/v3/index.json
